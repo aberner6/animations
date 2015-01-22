@@ -6,6 +6,19 @@
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
 </head>
 <style>
+
+path {
+  fill: none;
+  stroke: gray;
+  stroke-width: 1px;
+}
+
+circle2 {
+  fill: white;
+  stroke: #fff;
+  stroke-width: 3px;
+}
+
 #check{
 	display:none;
 	position:fixed;
@@ -15,6 +28,18 @@
 .demo-1-trigger{
 	left: 100px;
 	top:210px;
+    height: 1em;
+    width:10em;
+    background-color: white;
+    color: gray;
+    font-family: Helvetica Neue;
+    padding:10px 10px 30px 10px;
+    border: .2em solid rgba(150,150,150,0.1);
+    list-style: none;
+}
+.demo-3-trigger{
+    left: 100px;
+    top:410px;
     height: 1em;
     width:10em;
     background-color: white;
@@ -177,6 +202,9 @@
 			<li></li>
 		</ul>
 	</div>
+    <div class="demo-3-trigger">
+    Click to Trigger "Progress"
+    </div>
 </body>
 
 
@@ -236,6 +264,85 @@ d3.selectAll(".win")
 					// .attr("opacity",0);   
             })
     })
+})
+
+$(".demo-3-trigger").on("click", function(){
+
+var points = [
+// [100, 200],
+  //   [125, 225],
+  //   [150, 250],
+  //   [125, 275],
+// [100, 300],
+    // [75,275],
+  //   [50, 250],
+   //  [75,225],   
+//   [100, 200],
+
+
+
+  // [100, 20],
+  //   [105, 25],
+  //   [110, 30],
+  //   [105, 35],
+  // [100, 40],
+  //   [95,35],
+  //   [90, 30],
+  //   [95,25],   
+  // [100, 20],
+
+
+  [100, 20],
+    [115, 30],
+    [120, 35],
+    [115, 40],
+  [100, 55],
+    [85,40],
+    [80, 35],
+    [85,30],   
+  [100, 20],
+];
+var svg2 = d3.select(".demo-3-trigger").append("svg")
+    .attr("width", 900)
+    .attr("height", 500);
+
+var path = svg2.append("path")
+    .data([points])
+    .attr("d", d3.svg.line()
+    .tension(0) // Catmull–Rom
+    .interpolate("linear")); //monotone
+
+svg2.selectAll(".point")
+    .data(points)
+  .enter().append("circle")
+    .attr("r", 1)
+    .attr("fill","teal")
+    .attr("transform", function(d) { return "translate(" + d + ")"; });
+
+var circle2 = svg2.append("circle")
+    .attr("r", 5)
+    .attr("fill","teal")
+    .attr("transform", "translate(" + points[0] + ")");
+
+transition();
+
+function transition() {
+  circle2.transition()
+      .duration(10000)
+      .attrTween("transform", translateAlong(path.node()))
+      .each("end", transition);
+}
+
+// Returns an attrTween for translating along the specified path element.
+function translateAlong(path) {
+  var l = path.getTotalLength();
+  return function(d, i, a) {
+    return function(t) {
+      var p = path.getPointAtLength(t * l);
+      return "translate(" + p.x + "," + p.y + ")";
+    };
+  };
+}
 })
 </script>
 </html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Success Animations</title>
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+</head>
+<style>
+#check{
+	display:none;
+	position:fixed;
+	left: 100px;
+	top:100px;
+}
+.demo-1-trigger{
+	left: 100px;
+	top:210px;
+    height: 1em;
+    width:10em;
+    background-color: white;
+    color: gray;
+    font-family: Helvetica Neue;
+    padding:10px 10px 30px 10px;
+    border: .2em solid rgba(150,150,150,0.1);
+    list-style: none;
+}
+.demo-2{
+    height: 1em;
+    width:10em;
+    position: relative;
+    margin: 100px auto;
+    background-color: white;
+    color: gray;
+    font-family: Helvetica Neue;
+    padding:10px 10px 30px 10px;
+    border: .2em solid rgba(150,150,150,0.1);
+    list-style: none;
+}
+.demo-2 .balls {
+	display:none;
+    font-size: 100px;
+	width: .1em;
+	height: .5em;
+    position: relative;
+    margin: 30px 0px 0px 0px;
+    border-radius: 50%;
+    border: .01em solid rgba(150,150,150,0.1);
+    list-style: none;
+}
+
+.demo-2 .balls li {
+    position: absolute;
+    width: .1em;
+    height: .01em;
+    /*border-radius: 50%;*/
+}
+
+.demo-2 .balls li:nth-child(1) {
+    left: 50%;
+    top: 0;
+    margin: 0 0 0 -.1em;
+    background: #00C176;
+    -webkit-transform-origin: 50% 250%;
+    transform-origin: 50% 250%;
+    -webkit-animation: 
+        rota 1.13s linear infinite,
+        opa 3.67s ease-in-out infinite alternate;
+    animation: 
+        rota 1.13s linear infinite,
+        opa 3.67s ease-in-out infinite alternate;
+}
+
+.demo-2 .balls li:nth-child(2) {
+    top: 50%; 
+    right: 0;
+    margin: -.1em 0 0 0;
+    background: #FF003C;
+    -webkit-transform-origin: -150% 50%;
+    transform-origin: -150% 50%;
+    -webkit-animation: 
+        rota 1.86s linear infinite,
+        opa 4.29s ease-in-out infinite alternate;
+    animation: 
+        rota 1.86s linear infinite,
+        opa 4.29s ease-in-out infinite alternate;
+}
+
+.demo-2 .balls li:nth-child(3) {
+    left: 50%; 
+    bottom: 0;
+    margin: 0 0 0 -.1em;
+    background: #FABE28;
+    -webkit-transform-origin: 50% -150%;
+    transform-origin: 50% -150%;
+    -webkit-animation: 
+        rota 1.45s linear infinite,
+        opa 5.12s ease-in-out infinite alternate;
+    animation: 
+        rota 1.45s linear infinite,
+        opa 5.12s ease-in-out infinite alternate;
+}
+
+.demo-2 .balls li:nth-child(4) {
+    top: 50%; 
+    left: 0;
+    margin: -.1em 0 0 0;
+    background: #88C100;
+    -webkit-transform-origin: 250% 50%;
+    transform-origin: 250% 50%;
+    -webkit-animation: 
+        rota 1.72s linear infinite,
+        opa 5.25s ease-in-out infinite alternate;
+    animation: 
+        rota 1.72s linear infinite,
+        opa 5.25s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes rota {
+    from { }
+    to { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes rota {
+    from { }
+    to { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@-webkit-keyframes opa {
+    0% { }
+    12.0% { opacity: 0.80; }
+    19.5% { opacity: 0.88; }
+    37.2% { opacity: 0.64; }
+    40.5% { opacity: 0.52; }
+    52.7% { opacity: 0.69; }
+    60.2% { opacity: 0.60; }
+    66.6% { opacity: 0.52; }
+    70.0% { opacity: 0.63; }
+    79.9% { opacity: 0.60; }
+    84.2% { opacity: 0.75; }
+    91.0% { opacity: 0.87; }
+}
+
+@keyframes opa {
+    0% { }
+    12.0% { opacity: 0.80; }
+    19.5% { opacity: 0.88; }
+    37.2% { opacity: 0.64; }
+    40.5% { opacity: 0.52; }
+    52.7% { opacity: 0.69; }
+    60.2% { opacity: 0.60; }
+    66.6% { opacity: 0.52; }
+    70.0% { opacity: 0.63; }
+    79.9% { opacity: 0.60; }
+    84.2% { opacity: 0.75; }
+    91.0% { opacity: 0.87; }
+}
+</style>
+<body>
+
+<div class="demo-1">
+	<div id = "successAnimation">
+	</div>
+	<div id="check">
+	    <img src="check.png" width="20" height="20">
+	</div>
+	<div class="demo-1-trigger">
+	Click to Trigger "Success"
+	</div>
+</div>
+<div class="demo-2">
+	Click to Trigger "Working"
+		<!-- the component -->
+		<ul class="balls">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+</body>
+
+
+
+<script>
+$(".demo-2").on("click", function(){
+	$(".balls").show();
+})
+
+
+var color = "#e97071"; //special red
+var width = 200;
+var height = 200;
+var topMargin = height/2;
+var radius = 20;
+var strokeWeight = 2;
+
+var svg1 = d3.select("#successAnimation")
+    .append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+var winCircle  = svg1.selectAll("win")
+    .data(d3.range(1))
+    .enter().append("circle")
+    .attr("class","win")
+    .attr("cx", width/2)
+    .attr("cy", topMargin)
+    .attr("r", radius)
+    .attr("fill", "none")
+    .attr("stroke-dasharray", "4,4")
+    .attr("stroke", "white")
+    .attr("stroke-width", strokeWeight)
+    .attr("opacity",1);
+
+$(".demo-1-trigger").on("click", function(){
+$("#check").hide();
+
+d3.selectAll(".win")
+	.transition()
+	// .delay(1000)
+	.duration(1000)
+	.attr("r", radius/2)
+	.attr("stroke-width", radius*2)
+	.attr("stroke", color)
+	.each("end", function(){
+		d3.selectAll(".win")
+			.transition()
+			.duration(2000)
+			.attr("r", radius) 
+            .attr("stroke-width", strokeWeight) 
+            .each("end", function(){
+				$("#check").show();
+		 		// d3.selectAll(".win")
+					// .transition()
+					// .duration(3000)      
+					// .attr("opacity",0);   
+            })
+    })
+})
+</script>
+</html>
